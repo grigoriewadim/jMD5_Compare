@@ -13,6 +13,8 @@ public class Main {
     private static File filename1;
     private static File filename2;
     private static String md5text;
+    private static String md5_FirstCompare;
+    private static String md5_SecondCompare;
 
     protected static class myGui extends JFrame {  //делаем GUI наследуем от JFrame
         myGui() {
@@ -27,6 +29,7 @@ public class Main {
             }
             setSize(700, 500);
             setLocation(300, 300);
+            setResizable(false);
 
             final JButton button1 = new JButton("Open file 1"); // Button for choose first file
             button1.setSize(200, 50);
@@ -63,7 +66,6 @@ public class Main {
             });
             add(button2);
 
-
             final JButton buttonCheck1 = new JButton("MD5"); //вычисляем md5 для первого файла
             buttonCheck1.setSize(60, 50);
             buttonCheck1.setLocation(270, 50);
@@ -71,6 +73,7 @@ public class Main {
                 public void actionPerformed(ActionEvent e) {
                     try {
                         md5text = md5Hash(readFile(filename1));
+                        md5_FirstCompare = md5text;
                         final JTextField textField1 = new JTextField(md5text);
                         textField1.setSize(250, 50);
                         textField1.setLocation(350, 50);
@@ -92,8 +95,8 @@ public class Main {
             buttonCheck2.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        String md5text;
                         md5text = md5Hash(readFile(filename2));
+                        md5_SecondCompare = md5text;
                         final JTextField textField2 = new JTextField(md5text);
                         textField2.setSize(250, 50);
                         textField2.setLocation(350, 120);
@@ -105,21 +108,57 @@ public class Main {
                     } catch (NullPointerException eNull) {
                         JOptionPane.showMessageDialog(null, "Please choose the file!");
                     }
-
                 }
             });
             add(buttonCheck2);
-        }
 
+            final JButton buttonCompare = new JButton("Compare");
+            buttonCompare.setSize(280, 50);
+            buttonCompare.setLocation(50, 200);
+            buttonCompare.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        md5Compare();
+                    } catch (NullPointerException eNull) {
+                        JOptionPane.showMessageDialog(null, "Please first choose files!");
+                    }
+                }
+            });
+            add(buttonCompare);
+
+            final JButton buttonReset = new JButton("Reset");
+            buttonReset.setSize(170, 50);
+            buttonReset.setLocation(250, 360);
+            buttonReset.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    
+                }
+            });
+            add(buttonReset);
+
+            final JButton buttonExit = new JButton("Exit");
+            buttonExit.setSize(170, 50);
+            buttonExit.setLocation(460, 360);
+            buttonExit.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    dispose();
+                }
+            });
+            add(buttonExit);
+        }
     }
 
     private static String md5Hash(String st) { //метод для вычисления хэш суммы
         return DigestUtils.md5Hex(st); //подключаем зависимость commons-codec org.apache.commons.codec.digest
     }
 
-//    protected static String md5Compare(String md5first, String md5second) {
-//
-//    }
+    private static void md5Compare() {
+        if (md5_FirstCompare.equals(md5_SecondCompare)) {
+            System.out.println("равны");
+        } else {
+            System.out.println("не равны");
+        }
+    }
 
     private static String readFile(File fileName) {  //читаем файл построчно
         StringBuilder stringBuilder = new StringBuilder();
