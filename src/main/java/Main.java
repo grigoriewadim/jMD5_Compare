@@ -27,7 +27,7 @@ public class Main {
             } catch (Exception e) {
                 System.err.println("Failed to set LookAndFeel");
             }
-            setSize(700, 500);
+            setSize(700, 480);
             setLocation(300, 300);
             setResizable(false);
 
@@ -113,17 +113,28 @@ public class Main {
             add(buttonCheck2);
 
             final JButton buttonCompare = new JButton("Compare");
+            final JTextField textCompare = new JTextField();
+            textCompare.setSize(280, 50);
+            textCompare.setLocation(100, 270);
+            textCompare.setEnabled(true);
+            textCompare.setBorder(null);
+            textCompare.setEditable(false);
             buttonCompare.setSize(280, 50);
             buttonCompare.setLocation(50, 200);
             buttonCompare.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
-                        md5Compare();
+                        if (md5_FirstCompare.equals(md5_SecondCompare)) {
+                            textCompare.setText("Compsre");
+                        } else {
+                            textCompare.setText("Not Compare");
+                        }
                     } catch (NullPointerException eNull) {
                         JOptionPane.showMessageDialog(null, "Please first choose files!");
                     }
                 }
             });
+            add(textCompare);
             add(buttonCompare);
 
             final JButton buttonReset = new JButton("Reset");
@@ -131,9 +142,10 @@ public class Main {
             buttonReset.setLocation(250, 360);
             buttonReset.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    
+
                 }
             });
+
             add(buttonReset);
 
             final JButton buttonExit = new JButton("Exit");
@@ -144,20 +156,13 @@ public class Main {
                     dispose();
                 }
             });
+
             add(buttonExit);
         }
     }
 
     private static String md5Hash(String st) { //метод для вычисления хэш суммы
         return DigestUtils.md5Hex(st); //подключаем зависимость commons-codec org.apache.commons.codec.digest
-    }
-
-    private static void md5Compare() {
-        if (md5_FirstCompare.equals(md5_SecondCompare)) {
-            System.out.println("равны");
-        } else {
-            System.out.println("не равны");
-        }
     }
 
     private static String readFile(File fileName) {  //читаем файл построчно
