@@ -19,7 +19,6 @@ public class Main {
     protected static class myGui extends JFrame {  //делаем GUI наследуем от JFrame
         myGui() {
             this.setLayout(null);
-
             setTitle("MD5 Compare");
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             try {
@@ -27,7 +26,7 @@ public class Main {
             } catch (Exception e) {
                 System.err.println("Failed to set LookAndFeel");
             }
-            setSize(700, 480);
+            setSize(650, 480);
             setLocation(300, 300);
             setResizable(false);
 
@@ -59,7 +58,6 @@ public class Main {
                         filename2 = choser2.getSelectedFile();
                         if (choser2.accept(filename1)) {
                             button2.setBackground(Color.green);
-//
                         }
                     }
                 }
@@ -125,7 +123,7 @@ public class Main {
                 public void actionPerformed(ActionEvent e) {
                     try {
                         if (md5_FirstCompare.equals(md5_SecondCompare)) {
-                            textCompare.setText("Compsre");
+                            textCompare.setText("Compare");
                         } else {
                             textCompare.setText("Not Compare");
                         }
@@ -139,10 +137,11 @@ public class Main {
 
             final JButton buttonReset = new JButton("Reset");
             buttonReset.setSize(170, 50);
-            buttonReset.setLocation(250, 360);
+            buttonReset.setLocation(200, 360);
             buttonReset.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-
+                   myGui.super.dispose();
+                   new Reset();
                 }
             });
 
@@ -150,7 +149,7 @@ public class Main {
 
             final JButton buttonExit = new JButton("Exit");
             buttonExit.setSize(170, 50);
-            buttonExit.setLocation(460, 360);
+            buttonExit.setLocation(400, 360);
             buttonExit.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     dispose();
